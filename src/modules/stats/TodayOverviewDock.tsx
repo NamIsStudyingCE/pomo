@@ -3,6 +3,7 @@
 import { CheckCircle, Flame } from "@phosphor-icons/react";
 import { useT } from "@/modules/i18n";
 import { Progress } from "@/design-system/data-display";
+import { cn } from "@/lib/utils";
 import { useTodayStats } from "./StatsRow";
 
 // Mot o chi so trong dock: nhan uppercase nho gon, so lon tracking-tight
@@ -11,11 +12,13 @@ function StatCell({
   value,
   suffix,
   icon,
+  valueClassName,
 }: {
   label: string;
   value: React.ReactNode;
   suffix?: string;
   icon?: React.ReactNode;
+  valueClassName?: string;
 }) {
   return (
     <div className="px-4 py-3 text-center">
@@ -24,7 +27,9 @@ function StatCell({
         {label}
       </p>
       <div className="tnum mt-1 flex items-baseline justify-center gap-1">
-        <span className="text-2xl font-semibold tracking-tight text-ink">{value}</span>
+        <span className={cn("text-2xl font-semibold tracking-tight text-ink", valueClassName)}>
+          {value}
+        </span>
         {suffix ? <span className="text-xs font-normal text-muted">{suffix}</span> : null}
       </div>
     </div>
@@ -51,16 +56,17 @@ export function TodayOverviewDock({
       <div className="px-4 pb-3 pt-4">
         <div className="mb-1 flex items-center gap-2">
           <h2 className="text-sm font-semibold text-ink">{t.goal.title}</h2>
-          {reached ? (
-            <span className="inline-flex items-center gap-1 rounded-md bg-accent-soft px-1.5 py-0.5 text-[11px] font-semibold text-accent-strong">
-              <CheckCircle size={12} weight="fill" />
-              {t.goal.reached}
-            </span>
-          ) : null}
         </div>
         <div className="mb-2 flex items-end justify-between gap-2">
           <p className="tnum flex items-baseline gap-1.5">
-            <span className="text-3xl font-semibold tracking-tight text-ink">{doneMinutes}</span>
+            <span
+              className={cn(
+                "text-3xl font-semibold tracking-tight",
+                reached ? "text-accent-strong" : "text-ink",
+              )}
+            >
+              {doneMinutes}
+            </span>
             <span className="text-sm font-normal text-muted">
               / {goalMinutes} {t.common.minutes_unit}
             </span>
@@ -76,6 +82,7 @@ export function TodayOverviewDock({
           label={t.stats.minutes_today}
           value={stats.minutesToday}
           suffix={t.common.minutes_unit}
+          valueClassName={reached ? "text-accent-strong" : undefined}
         />
         <StatCell label={t.stats.sessions_today} value={stats.sessionsCompleted} />
         <StatCell

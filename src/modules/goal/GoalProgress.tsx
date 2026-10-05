@@ -2,7 +2,7 @@
 
 import { useT } from "@/modules/i18n";
 import { Card, Progress } from "@/design-system/data-display";
-import { CheckCircle } from "@phosphor-icons/react";
+import { cn } from "@/lib/utils";
 
 export function GoalProgress({
   doneMinutes,
@@ -21,19 +21,15 @@ export function GoalProgress({
       <div className="flex items-center justify-between gap-2 mb-2">
         <span className="text-xs font-semibold tracking-tight text-ink">{t.goal.title}</span>
         <span className="tnum text-xs font-medium text-muted">
-          <span className="font-bold text-ink">{doneMinutes}</span>
+          <span className={cn("font-bold", reached ? "text-accent-strong" : "text-ink")}>
+            {doneMinutes}
+          </span>
           <span className="mx-0.5 text-muted/60">{t.goal.of}</span>
           <span>{goalMinutes} {t.common.minutes_unit}</span>
           <span className="ml-1.5 text-muted/70">({pct}%)</span>
         </span>
       </div>
       <Progress ratio={ratio} />
-      {reached ? (
-        <p className="mt-2 flex items-center gap-1 text-xs font-medium text-accent-strong">
-          <CheckCircle size={14} weight="fill" />
-          <span>{t.goal.reached}</span>
-        </p>
-      ) : null}
     </Card>
   );
 }
