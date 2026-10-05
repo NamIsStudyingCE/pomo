@@ -65,6 +65,7 @@ export const en: Messages = {
     title: "Today's goal",
     reached: "Goal reached. Well done.",
     of: "/",
+    edit_hint: "Click here to adjust daily goal",
   },
   stats: {
     minutes_today: "Focus minutes",

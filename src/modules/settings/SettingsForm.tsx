@@ -22,28 +22,18 @@ export function SettingsForm() {
   const profile = useProfile();
   const update = useUpdateProfile();
 
-  const [goal, setGoal] = useState(120);
   const [sessionLen, setSessionLen] = useState(25);
   const [sound, setSound] = useState(true);
-  const goalRef = useRef<HTMLInputElement>(null);
   const sessionLenRef = useRef<HTMLInputElement>(null);
 
   // Dong bo tu profile, nhung khong ghi de o dang duoc sua
   useEffect(() => {
     if (!profile.data) return;
-    if (document.activeElement !== goalRef.current) setGoal(profile.data.daily_goal_minutes);
     if (document.activeElement !== sessionLenRef.current) {
       setSessionLen(profile.data.preferred_session_minutes);
     }
     setSound(profile.data.sound_enabled);
   }, [profile.data]);
-
-  // So: luu khi roi o (blur) hoac Enter, tranh ban mutation tung ky tu
-  function commitGoal() {
-    const v = Math.min(960, Math.max(15, Math.round(goal) || 120));
-    setGoal(v);
-    update.mutate({ daily_goal_minutes: v });
-  }
 
   function commitSessionLen() {
     const v = Math.min(120, Math.max(5, Math.round(sessionLen) || 25));
@@ -73,28 +63,6 @@ export function SettingsForm() {
   return (
     <div className="grid max-w-lg gap-6">
       <Card className="grid gap-4">
-        <div className="flex items-center justify-between gap-4">
-          <label htmlFor="goal" className="text-sm font-medium">
-            {t.settings.goal_label}
-          </label>
-          <div className="flex items-center gap-2">
-            <Input
-              ref={goalRef}
-              id="goal"
-              type="number"
-              min={15}
-              max={960}
-              value={goal}
-              onChange={(e) => setGoal(Number(e.target.value))}
-              onBlur={commitGoal}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") goalRef.current?.blur();
-              }}
-              className="tnum w-20 px-2 text-center"
-            />
-            <span className="text-sm text-muted">{t.common.minutes_unit}</span>
-          </div>
-        </div>
         <div className="flex items-center justify-between gap-4">
           <label htmlFor="session-len" className="text-sm font-medium">
             {t.settings.session_len}

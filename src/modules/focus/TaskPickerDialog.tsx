@@ -139,52 +139,55 @@ export function TaskPickerDialog({ open, onClose }: { open: boolean; onClose: ()
           <Skeleton className="h-12 w-full" />
           <Skeleton className="h-12 w-full" />
         </div>
-      ) : list.length === 0 ? (
-        <EmptyState title={t.focus.pick_empty} />
       ) : (
         <div className="grid gap-4">
-          <div className="grid max-h-72 gap-2 overflow-y-auto pr-0.5" role="radiogroup" aria-label={t.focus.pick_task}>
-            {list.map((task: Task) => {
-              const isSelected = selectedId === task.id;
-              const scored = reasonById.get(task.id);
-              return (
-                <button
-                  key={task.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={isSelected}
-                  onClick={() => pick(task.id)}
-                  className={cn(
-                    "group flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 rounded-lg border px-3 text-left transition-colors",
-                    isSelected
-                      ? "border-accent bg-accent-soft/40 opacity-100"
-                      : selectedId
-                        ? "border-line bg-surface opacity-55 hover:border-accent-strong hover:opacity-100"
-                        : "border-line bg-surface opacity-85 hover:border-accent-strong hover:opacity-100",
-                  )}
-                >
-                  <div className="flex min-w-0 items-center gap-3">
-                    <PriorityDot priority={task.priority} />
-                    <span className="block truncate font-medium">{task.title}</span>
-                  </div>
-
-                  {/* Vòng tròn rỗng màu cam nâu đậm, chỉ lấp đầy khi tick chọn */}
-                  <div
+          {list.length === 0 ? (
+            <p className="rounded-lg border border-line bg-surface/50 p-3 text-center text-xs text-muted">
+              {t.focus.pick_empty}
+            </p>
+          ) : (
+            <div className="grid max-h-72 gap-2 overflow-y-auto pr-0.5" role="radiogroup" aria-label={t.focus.pick_task}>
+              {list.map((task: Task) => {
+                const isSelected = selectedId === task.id;
+                return (
+                  <button
+                    key={task.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    onClick={() => pick(task.id)}
                     className={cn(
-                      "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                      "group flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 rounded-lg border px-3 text-left transition-colors",
                       isSelected
-                        ? "border-accent-strong bg-transparent"
-                        : "border-accent-strong/80 bg-transparent group-hover:border-accent-strong",
+                        ? "border-accent bg-accent-soft/40 opacity-100"
+                        : selectedId
+                          ? "border-line bg-surface opacity-55 hover:border-accent-strong hover:opacity-100"
+                          : "border-line bg-surface opacity-85 hover:border-accent-strong hover:opacity-100",
                     )}
                   >
-                    {isSelected ? (
-                      <div className="h-2.5 w-2.5 rounded-full bg-accent-strong" />
-                    ) : null}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+                    <div className="flex min-w-0 items-center gap-3">
+                      <PriorityDot priority={task.priority} />
+                      <span className="block truncate font-medium">{task.title}</span>
+                    </div>
+
+                    {/* Vòng tròn rỗng màu cam nâu đậm, chỉ lấp đầy khi tick chọn */}
+                    <div
+                      className={cn(
+                        "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                        isSelected
+                          ? "border-accent-strong bg-transparent"
+                          : "border-accent-strong/80 bg-transparent group-hover:border-accent-strong",
+                      )}
+                    >
+                      {isSelected ? (
+                        <div className="h-2.5 w-2.5 rounded-full bg-accent-strong" />
+                      ) : null}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
           <div className="flex items-center justify-between gap-3">
             <label htmlFor="duration" className="text-sm font-medium">

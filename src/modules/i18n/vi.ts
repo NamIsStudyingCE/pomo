@@ -63,6 +63,7 @@ export const vi = {
     title: "Mục tiêu hôm nay",
     reached: "Đã đạt mục tiêu. Giỏi lắm.",
     of: "/",
+    edit_hint: "Nhấn vào đây để điều chỉnh mục tiêu mỗi ngày",
   },
   stats: {
     minutes_today: "Phút tập trung",
