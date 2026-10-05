@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, Flame, PencilSimple } from "@phosphor-icons/react";
+import { Check, Flame } from "@phosphor-icons/react";
 import { useT } from "@/modules/i18n";
 import { Progress } from "@/design-system/data-display";
 import { useUpdateProfile } from "@/modules/settings/hooks";
@@ -175,7 +175,7 @@ export function TodayOverviewDock({
               onMouseLeave={() => setIsHovered(false)}
               className={cn(
                 "group relative inline-flex cursor-pointer items-center overflow-hidden rounded-md border border-dashed border-[#B89F82] dark:border-[#8C7A6B] bg-paper/70 hover:bg-paper hover:border-accent-strong/80 py-1 text-xs text-muted transition-all duration-300 ease-in-out select-none shadow-[0_1px_2px_rgba(0,0,0,0.02)]",
-                showHint ? "px-2.5 max-w-[340px]" : "px-2 max-w-[130px]",
+                showHint ? "px-2.5 max-w-[420px]" : "px-2 max-w-[120px]",
               )}
               title={t.goal.edit_hint}
             >
@@ -184,15 +184,14 @@ export function TodayOverviewDock({
                   {goalMinutes} {t.common.minutes_unit}
                 </span>
 
-                {/* Phần nội dung nở rộng hiển thị dòng nhắc nhở */}
+                {/* Phần nội dung nở rộng hiển thị đầy đủ dòng nhắc nhở */}
                 <div
                   className={cn(
-                    "flex items-center gap-1 overflow-hidden transition-all duration-300 ease-in-out",
-                    showHint ? "opacity-100 max-w-[240px] ml-1 pl-1.5 border-l border-dashed border-[#B89F82]/60" : "opacity-0 max-w-0 pointer-events-none",
+                    "flex items-center overflow-hidden transition-all duration-300 ease-in-out",
+                    showHint ? "opacity-100 max-w-[320px] ml-1 pl-1.5 border-l border-dashed border-[#B89F82]/60" : "opacity-0 max-w-0 pointer-events-none",
                   )}
                 >
-                  <PencilSimple size={12} className="text-accent-strong shrink-0" />
-                  <span className="text-[11px] font-medium text-accent-strong/90 truncate">
+                  <span className="text-[11px] font-medium text-accent-strong whitespace-nowrap">
                     {t.goal.edit_hint}
                   </span>
                 </div>
