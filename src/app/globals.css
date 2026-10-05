@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tokens nguồn: DESIGN.md. Đổi ở đây thì đổi cả DESIGN.md. */
+@theme {
+  --color-paper: #faf7f1;
+  --color-surface: #ffffff;
+  --color-ink: #23201c;
+  --color-muted: #6f655b;
+  --color-line: #e8e0d4;
+  --color-accent: #c74a16;
+  --color-accent-strong: #a63b10;
+  --color-accent-soft: #f6e3d8;
+  --color-danger: #b3261e;
+
+  /* Kim loai huy chuong Streak: tram, am, dung duoc ca 2 theme (khong override .dark) */
+  --color-gold: #dfae3e;
+  --color-gold-strong: #9a7418;
+  --color-gold-soft: #f3e2b3;
+  --color-silver: #9aa0aa;
+  --color-silver-strong: #6e747e;
+  --color-silver-soft: #e6e3de;
+  --color-bronze: #c07b3a;
+  --color-bronze-strong: #8a5220;
+  --color-bronze-soft: #edcfa8;
+
+  --font-sans: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-pop: 0 8px 30px rgb(35 32 28 / 0.12);
+
+  --radius-card: 12px;
+  --radius-dialog: 16px;
+}
+
+.dark {
+  --color-paper: #1b1815;
+  --color-surface: #262119;
+  --color-ink: #f2ede4;
+  --color-muted: #a79c8e;
+  --color-line: #3a332b;
+  /* accent = fill/đồ họa (trắng trên này = 4.75:1), accent-strong = chữ accent (6.2:1 trên paper) */
+  --color-accent: #c74a16;
+  --color-accent-strong: #f0763f;
+  --color-accent-soft: #3a2418;
+  --color-danger: #e0655d;
+
+  --shadow-pop: 0 8px 30px rgb(0 0 0 / 0.45);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+  * {
+    border-color: var(--color-line);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-accent-soft);
+  }
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

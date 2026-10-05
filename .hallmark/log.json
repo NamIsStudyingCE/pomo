@@ -1,0 +1,26 @@
+[
+  {
+    "date": "2026-10-05",
+    "macrostructure": "app-dashboard",
+    "theme": "locked DESIGN.md",
+    "enrichment": "none",
+    "brief": "Review: bo khung Nhan xet, thay bang Streak 7 ngay (khien Vang/Bac/Dong + vong tien do, vach net dut)",
+    "scope": "app"
+  },
+  {
+    "date": "2026-10-05",
+    "macrostructure": "app-dashboard",
+    "theme": "locked DESIGN.md",
+    "enrichment": "none",
+    "brief": "Flow UX: gop suggest vao picker (preselect), nut Play 1-click tren TaskItem, stop ve thang /today, xoa module suggest",
+    "scope": "app"
+  },
+  {
+    "date": "2026-10-05",
+    "macrostructure": "app-dashboard",
+    "theme": "locked DESIGN.md",
+    "enrichment": "none",
+    "brief": "Pomo /today: goal dock number-led, section head don, kbd shortcut voice thong nhat",
+    "scope": "app"
+  }
+]

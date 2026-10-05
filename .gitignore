@@ -1,0 +1,17 @@
+node_modules/
+.next/
+out/
+coverage/
+.env
+.env.local
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+
+# Local runtime logs and scripts
+*.log
+err.txt
+launch-pomo.ps1
+launch-pomo.vbs
+start-server.vbs
