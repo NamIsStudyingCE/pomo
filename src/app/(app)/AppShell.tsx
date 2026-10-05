@@ -9,6 +9,7 @@ import { useAuth } from "@/modules/auth/AuthProvider";
 import { useSessionStore } from "@/modules/focus/session-store";
 import { useSessionBootstrap } from "@/modules/focus/useSessionBootstrap";
 import { SessionEngine } from "@/modules/focus/SessionEngine";
+import { AmbientAudioController } from "@/modules/focus/AmbientAudioController";
 import { useProfile } from "@/modules/settings/hooks";
 import { formatClock } from "@/lib/time";
 import { cn } from "@/lib/utils";
@@ -282,6 +283,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </main>
 
         <SessionEngine />
+        <AmbientAudioController />
 
         {/* Thanh session đang chạy (desktop) */}
         {showSessionBar ? (

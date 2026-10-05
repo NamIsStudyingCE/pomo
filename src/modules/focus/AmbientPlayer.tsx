@@ -1,73 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { Play, Pause, SpeakerSimpleHigh, SpeakerSimpleLow, SpeakerSimpleX } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
-
-export type SoundTrack = "lofi" | "rain" | "fire";
-
-const TRACKS: { id: SoundTrack; label: string; src: string }[] = [
-  { id: "lofi", label: "Lo-fi Rhodes", src: "/ambient/lofi.wav" },
-  { id: "rain", label: "Mưa êm", src: "/ambient/rain.wav" },
-  { id: "fire", label: "Lò sưởi", src: "/ambient/fire.wav" },
-];
+import { useAmbientStore, TRACKS, type SoundTrack } from "./ambient-store";
 
 export function AmbientPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState<SoundTrack>("lofi");
-  const [volume, setVolume] = useState(0.4);
-  const [showControls, setShowControls] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const isPlaying = useAmbientStore((s) => s.isPlaying);
+  const currentTrack = useAmbientStore((s) => s.currentTrack);
+  const volume = useAmbientStore((s) => s.volume);
+  const showControls = useAmbientStore((s) => s.showControls);
 
-  const activeTrack = TRACKS.find((t) => t.id === currentTrack) || TRACKS[0];
+  const togglePlay = useAmbientStore((s) => s.togglePlay);
+  const setTrack = useAmbientStore((s) => s.setTrack);
+  const setVolume = useAmbientStore((s) => s.setVolume);
+  const setShowControls = useAmbientStore((s) => s.setShowControls);
 
-  useEffect(() => {
-    const audio = new Audio(activeTrack.src);
-    audio.loop = true;
-    audio.volume = volume;
-    audioRef.current = audio;
-
-    return () => {
-      audio.pause();
-      audio.src = "";
-    };
-  }, []);
-
-  // Thay doi track
   function handleSelectTrack(trackId: SoundTrack) {
-    setCurrentTrack(trackId);
-    const target = TRACKS.find((t) => t.id === trackId);
-    if (!target || !audioRef.current) return;
-
-    const wasPlaying = isPlaying;
-    audioRef.current.src = target.src;
-    audioRef.current.currentTime = 0;
-    if (wasPlaying) {
-      audioRef.current.play().catch(() => setIsPlaying(false));
-    }
+    setTrack(trackId);
   }
 
-  // Toggle Play / Pause
-  function togglePlay() {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => setIsPlaying(false));
-    }
-  }
-
-  // Thay doi am luong
   function handleVolumeChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const v = parseFloat(e.target.value);
-    setVolume(v);
-    if (audioRef.current) {
-      audioRef.current.volume = v;
-    }
+    setVolume(parseFloat(e.target.value));
   }
 
   return (
