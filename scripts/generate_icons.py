@@ -1,75 +1,95 @@
 import math
+import os
 from PIL import Image, ImageDraw
 
-def create_circular_pomo_icon(size=1024):
+def create_crisp_p_dot_icon(size=1024):
+    """
+    Tạo biểu tượng 'P.' sắc nét, KHÔNG CÓ NỀN GIẤY / KHÔNG CÓ VIỀN TRÒN.
+    Nền trong suốt hoàn toàn (transparent), chữ P to đậm và dấu chấm cam rõ ràng,
+    căn giữa khung hình để hiển thị cực kỳ sắc nét trên Windows Taskbar dù ở 24px hay 48px.
+    """
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
 
     scale = size / 512.0
-    cx, cy = size / 2.0, size / 2.0
 
-    # 1. Background Circular Warm Paper (#FAF7F1)
-    paper = (250, 247, 241, 255)
-    border_color = (232, 224, 212, 255) # #E8E0D4
-    r_outer = 248 * scale
-    draw.ellipse([cx - r_outer, cy - r_outer, cx + r_outer, cy + r_outer], fill=paper, outline=border_color, width=int(12 * scale))
-
-    # 2. Ring Motif (dashed circular dial in Terracotta #C74A16, 25% opacity)
-    r_ring = 204 * scale
-    num_dashes = 36
-    stroke_w = int(14 * scale)
-    dash_color = (199, 74, 22, 64)  # ~25% opacity
-
-    for i in range(num_dashes):
-        if i % 2 == 0:
-            angle_start = (i / num_dashes) * 360
-            angle_end = ((i + 0.65) / num_dashes) * 360
-            draw.arc([cx - r_ring, cy - r_ring, cx + r_ring, cy + r_ring], start=angle_start, end=angle_end, fill=dash_color, width=stroke_w)
-
-    # 3. Letter P in Ink (#23201C)
+    # Màu mực đen mộc #23201C
     ink = (35, 32, 28, 255)
+    # Màu cam accent #C74A16
+    orange = (199, 74, 22, 255)
 
-    # Stem: x: 168 to 228 (width 60), y: 132 to 380 (height 248)
-    draw.rectangle([int(168 * scale), int(132 * scale), int(228 * scale), int(380 * scale)], fill=ink)
+    # Shift nhẹ sang trái 14px để bù trừ cho dấu chấm bên phải
+    dx = -14 * scale
 
-    # Top Bar: x: 228 to 284, y: 132 to 186
-    draw.rectangle([int(228 * scale), int(132 * scale), int(284 * scale), int(186 * scale)], fill=ink)
+    # Kích thước chữ P lớn chiếm khoảng 75% chiều cao canvas
+    # Stem: x: 120 to 196 (width 76), y: 70 to 442 (height 372)
+    x0 = int(120 * scale + dx)
+    x1 = int(196 * scale + dx)
+    y0 = int(70 * scale)
+    y1 = int(442 * scale)
+    draw.rectangle([x0, y0, x1, y1], fill=ink)
 
-    # Middle Bar: x: 228 to 284, y: 266 to 320
-    draw.rectangle([int(228 * scale), int(266 * scale), int(284 * scale), int(320 * scale)], fill=ink)
+    # Top Bar: x: 196 to 296, y: 70 to 146
+    x2 = int(296 * scale + dx)
+    y_mid_top = int(146 * scale)
+    draw.rectangle([x1, y0, x2, y_mid_top], fill=ink)
 
-    # Outer Bowl Curve of P: center at (284, 226), radius 94
-    bowl_cx = int(284 * scale)
-    bowl_cy = int(226 * scale)
-    bowl_r = int(94 * scale)
+    # Middle Bar: x: 196 to 296, y: 236 to 312
+    y_mid_bot = int(236 * scale)
+    y_bowl_bot = int(312 * scale)
+    draw.rectangle([x1, y_mid_bot, x2, y_bowl_bot], fill=ink)
+
+    # Outer Bowl Curve of P: center at (296, 191), radius 121
+    bowl_cx = int(296 * scale + dx)
+    bowl_cy = int(191 * scale)
+    bowl_r = int(121 * scale)
     draw.pieslice([bowl_cx - bowl_r, bowl_cy - bowl_r, bowl_cx + bowl_r, bowl_cy + bowl_r], start=-90, end=90, fill=ink)
 
-    # Inner Hole (counter) of P in paper color (#FAF7F1)
-    inner_r = int(40 * scale)
-    draw.rectangle([int(228 * scale), int(186 * scale), int(284 * scale), int(266 * scale)], fill=paper)
-    draw.pieslice([bowl_cx - inner_r, bowl_cy - inner_r, bowl_cx + inner_r, bowl_cy + inner_r], start=-90, end=90, fill=paper)
+    # Inner Hole (counter) of P (transparent cutout using RGBA 0)
+    # Masking cutout
+    inner_r = int(45 * scale)
+    mask = Image.new("L", (size, size), 255)
+    mask_draw = ImageDraw.Draw(mask)
+    mask_draw.rectangle([x1, y_mid_top, x2, y_mid_bot], fill=0)
+    mask_draw.pieslice([bowl_cx - inner_r, bowl_cy - inner_r, bowl_cx + inner_r, bowl_cy + inner_r], start=-90, end=90, fill=0)
 
-    # 4. Accent Dot . in Terracotta Pomodoro (#C74A16)
-    terracotta = (199, 74, 22, 255)
-    dot_cx = int(360 * scale)
-    dot_cy = int(360 * scale)
-    dot_r = int(26 * scale)
-    draw.ellipse([dot_cx - dot_r, dot_cy - dot_r, dot_cx + dot_r, dot_cy + dot_r], fill=terracotta)
+    # Áp mask cắt thủng lỗ chữ P
+    img.putalpha(Image.composite(img.getchannel("A"), mask, mask))
+
+    # Vẽ dấu chấm cam Pomodoro .
+    dot_cx = int(396 * scale + dx)
+    dot_cy = int(410 * scale)
+    dot_r = int(34 * scale)
+    draw = ImageDraw.Draw(img)
+    draw.ellipse([dot_cx - dot_r, dot_cy - dot_r, dot_cx + dot_r, dot_cy + dot_r], fill=orange)
 
     return img
 
 def main():
-    hi_res = create_circular_pomo_icon(1024)
+    hi_res = create_crisp_p_dot_icon(1024)
 
-    # Save 512x512 PNG
-    img_512 = hi_res.resize((512, 512), Image.Resampling.LANCZOS)
-    img_512.save("D:/pomo/public/pomo.png", "PNG")
-    print("Saved D:/pomo/public/pomo.png")
+    # 1. Lưu D:/pomo/public/pomo.png
+    hi_res.resize((512, 512), Image.Resampling.LANCZOS).save("D:/pomo/public/pomo.png", "PNG")
+    print("Updated D:/pomo/public/pomo.png")
 
-    # Save multi-size ICO for Windows
-    ico_sizes = [(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)]
+    # 2. Lưu D:/pomo/public/pomo.ico với đầy đủ kích thước từ siêu nhỏ tới siêu nét (16, 24, 32, 48, 64, 128, 256)
+    ico_sizes = [(16, 16), (20, 20), (24, 24), (32, 32), (40, 40), (48, 48), (64, 64), (128, 128), (256, 256)]
     hi_res.save("D:/pomo/public/pomo.ico", format="ICO", sizes=ico_sizes)
-    print("Saved D:/pomo/public/pomo.ico")
+    print("Updated D:/pomo/public/pomo.ico")
+
+    # 3. Cập nhật shortcut ngoài desktop nếu có
+    try:
+        import win32com.client
+        shell = win32com.client.Dispatch("WScript.Shell")
+        desktop = shell.SpecialFolders("Desktop")
+        shortcut_path = os.path.join(desktop, "Pomo.lnk")
+        if os.path.exists(shortcut_path):
+            shortcut = shell.CreateShortcut(shortcut_path)
+            shortcut.IconLocation = "D:\\pomo\\public\\pomo.ico,0"
+            shortcut.Save()
+            print("Desktop shortcut icon updated!")
+    except Exception as e:
+        print("Note on shortcut:", e)
 
 if __name__ == "__main__":
     main()

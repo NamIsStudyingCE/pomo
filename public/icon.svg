@@ -1,13 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <!-- Nền hình tròn giấy ấm -->
-  <circle cx="256" cy="256" r="248" fill="#FAF7F1" stroke="#E8E0D4" stroke-width="12"/>
-  <!-- Vòng ring Pomodoro mờ nhạt -->
-  <circle cx="256" cy="256" r="204" stroke="#C74A16" stroke-opacity="0.25" stroke-width="14" stroke-dasharray="20 16"/>
-  <!-- Nhóm chữ P và dấu chấm căn giữa tuyệt đối -->
-  <g transform="translate(-16, 0)">
-    <!-- Chữ P màu mực nâu mực #23201C -->
-    <path d="M168 132H284C345 132 384 168 384 226C384 284 345 320 284 320H228V380H168V132ZM228 266H276C306 266 324 249 324 226C324 203 306 186 276 186H228V266Z" fill="#23201C"/>
-    <!-- Dấu chấm tròn accent cà chua Pomodoro #C74A16 -->
-    <circle cx="360" cy="360" r="26" fill="#C74A16"/>
+  <!-- Chữ P và dấu chấm không nền giấy, kích thước lớn sắc nét tuyệt đối căn giữa -->
+  <g transform="translate(-14, 0)">
+    <!-- Chữ P nét dày đậm màu mực #23201C -->
+    <path d="M128 72H296C374 72 424 118 424 192C424 266 374 312 296 312H204V440H128V72ZM204 242H286C324 242 346 221 346 192C346 163 324 142 286 142H204V242Z" fill="#23201C"/>
+    <!-- Dấu chấm accent màu cam cà chua #C74A16 -->
+    <circle cx="394" cy="414" r="34" fill="#C74A16"/>
   </g>
 </svg>
