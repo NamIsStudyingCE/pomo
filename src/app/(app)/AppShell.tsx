@@ -190,7 +190,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
 
             <nav className="grid gap-1">
-              {NAV.map(({ href, key, Icon }, idx) => {
+              {NAV.map(({ href, key, Icon }) => {
                 const active = pathname.startsWith(href);
                 return (
                   <Link
@@ -206,9 +206,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   >
                     <Icon size={19} weight={active ? "fill" : "regular"} />
                     <span>{t.nav[key]}</span>
-                    <span className="ml-auto text-[10px] font-mono opacity-40">
-                      {idx + 1}
-                    </span>
                   </Link>
                 );
               })}
