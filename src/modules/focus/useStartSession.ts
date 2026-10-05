@@ -14,12 +14,20 @@ export function useStartSession() {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ task, minutes }: { task: Task; minutes: number }) => {
+    mutationFn: async ({
+      task,
+      title,
+      minutes,
+    }: {
+      task?: Task | null;
+      title?: string;
+      minutes: number;
+    }) => {
       if (!session) throw new Error("Chưa đăng nhập");
       return insertSession({
         userId: session.user.id,
-        taskId: task.id,
-        taskTitle: task.title,
+        taskId: task?.id ?? null,
+        taskTitle: task?.title ?? title ?? "Tập trung tự do",
         plannedMinutes: minutes,
       });
     },

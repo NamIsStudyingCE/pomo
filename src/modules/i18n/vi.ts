@@ -1,8 +1,8 @@
 // Mọi chuỗi UI tiếng Việt. Không dùng em dash. Giữ câu ngắn, động từ đứng đầu cho hành động.
 export const vi = {
   nav: {
-    today: "Hôm nay",
-    review: "Tuần này",
+    today: "Tổng quan",
+    review: "Thống kê",
     settings: "Cài đặt",
     logout: "Đăng xuất",
   },
@@ -77,6 +77,7 @@ export const vi = {
     duration: "Thời lượng",
     start: "Bắt đầu tập trung",
     start_with: (m: number) => `Bắt đầu ${m} phút`,
+    start_free: "Không cần chọn việc",
     stop: "Dừng sớm",
     stop_title: "Dừng phiên này?",
     stop_body: "Thời gian đã tập trung vẫn được ghi nhận.",

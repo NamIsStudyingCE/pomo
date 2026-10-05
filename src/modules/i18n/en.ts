@@ -3,8 +3,8 @@ import type { Messages } from "./vi";
 // Bản dịch English, giữ đúng shape của bản Việt.
 export const en: Messages = {
   nav: {
-    today: "Today",
-    review: "This week",
+    today: "Overview",
+    review: "Statistic",
     settings: "Settings",
     logout: "Log out",
   },
@@ -79,6 +79,7 @@ export const en: Messages = {
     duration: "Duration",
     start: "Start focusing",
     start_with: (m: number) => `Start ${m} min`,
+    start_free: "Without picking a task",
     stop: "Stop early",
     stop_title: "Stop this session?",
     stop_body: "The time you already focused still counts.",

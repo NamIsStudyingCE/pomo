@@ -114,6 +114,15 @@ export function TaskPickerDialog({ open, onClose }: { open: boolean; onClose: ()
     onClose();
   }
 
+  async function onStartFree() {
+    const mins = Math.min(120, Math.max(5, minutes));
+    if (profile && profile.preferred_session_minutes !== mins) {
+      updateProfile.mutate({ preferred_session_minutes: mins });
+    }
+    await start.mutateAsync({ title: "Tập trung tự do", minutes: mins });
+    onClose();
+  }
+
   return (
     <Dialog
       open={open}
@@ -156,14 +165,7 @@ export function TaskPickerDialog({ open, onClose }: { open: boolean; onClose: ()
                 >
                   <div className="flex min-w-0 items-center gap-3">
                     <PriorityDot priority={task.priority} />
-                    <span className="min-w-0">
-                      <span className="block truncate font-medium">{task.title}</span>
-                      {scored ? (
-                        <span className="block truncate text-xs font-normal text-muted">
-                          {reasonText(scored)}
-                        </span>
-                      ) : null}
-                    </span>
+                    <span className="block truncate font-medium">{task.title}</span>
                   </div>
 
                   {/* Vòng tròn rỗng màu cam nâu đậm, chỉ lấp đầy khi tick chọn */}
@@ -202,13 +204,27 @@ export function TaskPickerDialog({ open, onClose }: { open: boolean; onClose: ()
             </div>
           </div>
 
-          <Button
-            onClick={onStart}
-            disabled={!selectedId || start.isPending}
-            className={cn(!selectedId && "opacity-40 cursor-not-allowed hover:brightness-100")}
-          >
-            {t.focus.start_with(minutes)}
-          </Button>
+          {/* Hai nut dat canh nhau: Nut theo phut chi sang khi chon it nhat 1 viec, nut khong can viec mau secondary khac biet */}
+          <div className="grid grid-cols-2 gap-2.5 pt-1">
+            <Button
+              onClick={onStart}
+              disabled={!selectedId || start.isPending}
+              className={cn(
+                "w-full truncate px-2 text-center",
+                !selectedId && "opacity-35 cursor-not-allowed hover:brightness-100",
+              )}
+            >
+              {t.focus.start_with(minutes)}
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={onStartFree}
+              disabled={start.isPending}
+              className="w-full truncate px-2 text-center border-line/80 hover:border-ink/30 hover:bg-surface text-ink/80 hover:text-ink"
+            >
+              {t.focus.start_free}
+            </Button>
+          </div>
         </div>
       )}
     </Dialog>

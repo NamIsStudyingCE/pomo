@@ -4,7 +4,7 @@ import type { FocusSession } from "./types";
 
 export async function insertSession(input: {
   userId: string;
-  taskId: string;
+  taskId: string | null;
   taskTitle: string;
   plannedMinutes: number;
 }): Promise<FocusSession> {
