@@ -89,7 +89,7 @@ export const vi = {
     complete_body: (m: number) => `Bạn vừa tập trung trọn vẹn ${m} phút.`,
     complete_body_honest: (m: number) => `Bạn tập trung thực tế ${m} phút.`,
     mark_task_done: "Đánh dấu việc đã xong",
-    keep_open: "Để việc mở",
+    keep_open: "Không đánh dấu",
     active_bar: "Đang tập trung",
     back_to_focus: "Quay lại phiên",
     no_active_title: "Không có phiên nào đang chạy",

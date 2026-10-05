@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ChartBar, GearSix, House, SidebarSimple, Timer } from "@phosphor-icons/react";
+import { ChartBar, GearSix, House, SidebarSimple, Timer, X } from "@phosphor-icons/react";
 import { useT } from "@/modules/i18n";
 import { useAuth } from "@/modules/auth/AuthProvider";
 import { useSessionStore } from "@/modules/focus/session-store";
@@ -247,22 +247,31 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             Pomo<span className="text-accent-strong">.</span>
           </Link>
           <div className="flex items-center gap-1">
-            {sessionStatus === "running" ? (
+            {pathname.startsWith("/settings") ? (
+              <div className="flex items-center gap-2">
+                {sessionStatus === "running" ? (
+                  <span className="tnum text-xs font-semibold text-accent-strong">
+                    {formatClock(remainingSeconds)}
+                  </span>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={() => router.back()}
+                  aria-label="Đóng cài đặt"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted transition-colors hover:text-ink cursor-pointer"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            ) : (
               <Link
-                href="/focus"
-                className="tnum flex min-h-9 items-center gap-2 rounded-lg bg-accent px-3 text-sm font-semibold text-white"
+                href="/settings"
+                aria-label={t.nav.settings}
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted transition-colors hover:text-ink"
               >
-                <Timer size={16} weight="fill" />
-                {formatClock(remainingSeconds)}
+                <GearSix size={20} />
               </Link>
-            ) : null}
-            <Link
-              href="/settings"
-              aria-label={t.nav.settings}
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted transition-colors hover:text-ink"
-            >
-              <GearSix size={20} />
-            </Link>
+            )}
           </div>
         </header>
 

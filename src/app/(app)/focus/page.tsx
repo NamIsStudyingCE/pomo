@@ -7,6 +7,7 @@ import { Button } from "@/design-system/Button";
 import { Dialog } from "@/design-system/Dialog";
 import { EmptyState } from "@/design-system/data-display";
 import { TimerRing } from "@/modules/focus/TimerRing";
+import { AmbientPlayer } from "@/modules/focus/AmbientPlayer";
 import { useSessionStore } from "@/modules/focus/session-store";
 import { useFinalizeSession } from "@/modules/focus/useFinalizeSession";
 
@@ -34,9 +35,12 @@ export default function FocusPage() {
     <div className="mx-auto flex max-w-md flex-col items-center gap-8 pt-10 md:pt-16">
       <p className="max-w-full truncate px-4 text-lg font-medium text-muted">{taskTitle}</p>
       <TimerRing remainingSeconds={remainingSeconds} totalSeconds={Math.round(plannedMs / 1000)} />
-      <Button variant="secondary" onClick={() => setConfirmStop(true)}>
-        {t.focus.stop}
-      </Button>
+      <div className="flex flex-col items-center gap-6">
+        <Button variant="secondary" onClick={() => setConfirmStop(true)}>
+          {t.focus.stop}
+        </Button>
+        <AmbientPlayer />
+      </div>
 
       <Dialog open={confirmStop} onClose={() => setConfirmStop(false)} title={t.focus.stop_title}>
         <p className="mb-4 text-sm text-muted">{t.focus.stop_body}</p>
