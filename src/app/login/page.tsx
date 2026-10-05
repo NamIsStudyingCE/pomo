@@ -45,7 +45,6 @@ export default function LoginPage() {
           {t.auth.login_title}
           <span className="text-accent">.</span>
         </p>
-        <p className="text-muted">{t.auth.login_subtitle}</p>
       </div>
 
       {!configured ? (

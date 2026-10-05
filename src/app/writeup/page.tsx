@@ -71,8 +71,7 @@ export default function WriteupPage() {
         </div>
 
         {/* Footer info */}
-        <div className="mt-10 pt-6 border-t border-[#E8E0D4] flex items-center justify-between text-xs text-[#6F655B] font-mono">
-          <span>Length: 976 chars / limit 1,000</span>
+        <div className="mt-10 pt-6 border-t border-[#E8E0D4] flex items-center justify-end text-xs text-[#6F655B] font-mono">
           <span>By Nguyen Hoang Nam</span>
         </div>
       </article>
