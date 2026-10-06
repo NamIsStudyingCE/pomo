@@ -13,6 +13,11 @@ const beVietnam = Be_Vietnam_Pro({
 export const metadata: Metadata = {
   title: "Pomo",
   description: "Theo dõi tập trung trung thực. Honest deep-work tracking.",
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/icon-192.png",
+    apple: "/icon-192.png",
+  },
   other: {
     google: "notranslate",
   },

@@ -10,16 +10,25 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
 }
 
+// Lưu deferredPrompt ở phạm vi toàn cục phòng trường hợp event bắn ra trước khi component mount
+let globalInstallPrompt: BeforeInstallPromptEvent | null = null;
+
+if (typeof window !== "undefined") {
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    globalInstallPrompt = e as BeforeInstallPromptEvent;
+  });
+}
+
 export function InstallPwaButton({ className }: { className?: string }) {
   const { t } = useT();
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [canInstall, setCanInstall] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
-    // Kiem tra xem app dang chay o che do app/standalone hay chua
+    // Kiểm tra chế độ standalone
     const isStandaloneMode =
       window.matchMedia("(display-mode: standalone)").matches ||
-      window.matchMedia("(display-mode: window-controls-overlay)").matches ||
       (window.navigator as unknown as { standalone?: boolean }).standalone === true;
 
     if (isStandaloneMode) {
@@ -27,36 +36,49 @@ export function InstallPwaButton({ className }: { className?: string }) {
       return;
     }
 
-    // Dang ky Service Worker neu trinh duyet ho tro
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("/sw.js").catch(() => {});
     }
 
-    // Lang nghe su kien beforeinstallprompt
-    function handleBeforeInstallPrompt(e: Event) {
-      e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
+    if (globalInstallPrompt) {
+      setCanInstall(true);
     }
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    function handlePrompt(e: Event) {
+      e.preventDefault();
+      globalInstallPrompt = e as BeforeInstallPromptEvent;
+      setCanInstall(true);
+    }
+
+    function handleAppInstalled() {
+      globalInstallPrompt = null;
+      setCanInstall(false);
+      setIsStandalone(true);
+    }
+
+    window.addEventListener("beforeinstallprompt", handlePrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener("beforeinstallprompt", handlePrompt);
+      window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 
-  // Neu da cai va dang chay standalone roi thi khong can hien nut tai nua
   if (isStandalone) {
     return null;
   }
 
   async function handleInstall() {
-    if (deferredPrompt) {
-      await deferredPrompt.prompt();
-      const choice = await deferredPrompt.userChoice;
-      if (choice.outcome === "accepted") {
-        setDeferredPrompt(null);
-      }
+    if (globalInstallPrompt) {
+      try {
+        await globalInstallPrompt.prompt();
+        const choice = await globalInstallPrompt.userChoice;
+        if (choice.outcome === "accepted") {
+          globalInstallPrompt = null;
+          setCanInstall(false);
+        }
+      } catch {}
     }
   }
 
