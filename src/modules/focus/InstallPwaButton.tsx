@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { DownloadSimple } from "@phosphor-icons/react";
 import { useT } from "@/modules/i18n";
+import { isDesktopApp } from "@/lib/desktop";
 import { cn } from "@/lib/utils";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -24,6 +25,9 @@ export function InstallPwaButton({ className }: { className?: string }) {
   const { t } = useT();
   const [canInstall, setCanInstall] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  // Ban desktop (Electron) da la app cai dat san: an nut ngay tu lan paint dau,
+  // khong cho chop hien roi mat. Trinh duyet giu nguyen.
+  const [isDesktop] = useState(isDesktopApp);
 
   useEffect(() => {
     // Kiểm tra chế độ standalone
@@ -65,7 +69,7 @@ export function InstallPwaButton({ className }: { className?: string }) {
     };
   }, []);
 
-  if (isStandalone) {
+  if (isStandalone || isDesktop) {
     return null;
   }
 

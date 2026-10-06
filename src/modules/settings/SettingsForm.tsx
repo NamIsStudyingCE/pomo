@@ -17,7 +17,7 @@ import { ThemeToggle } from "./ThemeToggle";
 // Moi cai dat luu ngay khi doi, khong nut Save, khong thong bao (thong bao them sau).
 export function SettingsForm() {
   const { t, locale: globalLocale, setLocale } = useT();
-  const { session } = useAuth();
+  const { session, isGuest, logoutGuest } = useAuth();
   const router = useRouter();
   const profile = useProfile();
   const update = useUpdateProfile();
@@ -115,7 +115,13 @@ export function SettingsForm() {
             variant="secondary"
             size="sm"
             onClick={async () => {
-              await signOut();
+              // Guest: phai xoa ca session trong state AuthProvider (khong chi localStorage),
+              // neu khong /login se redirect nguoc ve /today ngay.
+              if (isGuest) {
+                logoutGuest();
+              } else {
+                await signOut();
+              }
               router.replace("/login");
             }}
           >

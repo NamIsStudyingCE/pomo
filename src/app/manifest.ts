@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
 
+// Bat buoc khi output: "export" (ban desktop): manifest la route tinh.
+export const dynamic = "force-static";
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Pomo - Deep Work Tracker",

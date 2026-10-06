@@ -12,6 +12,7 @@ import { SessionEngine } from "@/modules/focus/SessionEngine";
 import { AmbientAudioController } from "@/modules/focus/AmbientAudioController";
 import { useProfile } from "@/modules/settings/hooks";
 import { formatClock } from "@/lib/time";
+import { isDesktopApp } from "@/lib/desktop";
 import { InstallPwaButton } from "@/modules/focus/InstallPwaButton";
 import { cn } from "@/lib/utils";
 
@@ -31,6 +32,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   // Trang thai thu gon / mo rong sidebar
   const [isCollapsed, setIsCollapsed] = useState(false);
+  // Ban desktop khong co nut Tai ung dung -> an luon thanh topbar desktop keo thua 48px trong
+  const [isDesktop] = useState(isDesktopApp);
 
   useEffect(() => {
     try {
@@ -290,10 +293,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        {/* Topbar desktop cho nut Tai ung dung (tuong tu goc tren ben phai cua Gemini) */}
-        <div className="hidden h-12 items-center justify-end px-8 pt-3 md:flex">
-          <InstallPwaButton />
-        </div>
+        {/* Topbar desktop cho nut Tai ung dung (trinh duyet only; desktop an ca thanh) */}
+        {isDesktop ? null : (
+          <div className="hidden h-12 items-center justify-end px-8 pt-3 md:flex">
+            <InstallPwaButton />
+          </div>
+        )}
 
         <main className="flex-1 px-4 py-4 md:px-6 md:py-6">
           <div className="mx-auto w-full max-w-2xl">

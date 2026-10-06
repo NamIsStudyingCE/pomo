@@ -1,0 +1,20 @@
+appId: com.pomo.tracker
+productName: Pomo
+directories:
+  output: dist
+files:
+  - out/**
+  - electron/**
+  - package.json
+asar: true
+win:
+  target: nsis
+  icon: public/pomo.ico
+  artifactName: Pomo-Setup-${version}.${ext}
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Pomo

@@ -27,17 +27,25 @@ const securityHeaders = [
   },
 ];
 
+const isDesktop = process.env.BUILD_TARGET === "desktop";
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: securityHeaders,
-      },
-    ];
-  },
+  // Desktop (Electron): export tinh de phuc vu qua custom protocol, khong can server.
+  // headers() khong hoat dong voi output: export nen chi ap dung cho ban web.
+  ...(isDesktop
+    ? { output: "export", trailingSlash: true }
+    : {
+        async headers() {
+          return [
+            {
+              source: "/:path*",
+              headers: securityHeaders,
+            },
+          ];
+        },
+      }),
 };
 
 export default nextConfig;
