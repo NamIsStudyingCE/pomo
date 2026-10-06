@@ -21,7 +21,7 @@ export const en: Messages = {
     install_app: "Install App",
   },
   auth: {
-    login_title: "Pomo",
+    login_title: "Pomo - Deep Work Tracker",
     login_subtitle: "Honest focus tracking, every day.",
     email_label: "Your email",
     email_placeholder: "you@example.com",

@@ -19,7 +19,7 @@ export const vi = {
     install_app: "Tải ứng dụng",
   },
   auth: {
-    login_title: "Pomo",
+    login_title: "Pomo - Deep Work Tracker",
     login_subtitle: "Theo dõi tập trung trung thực, mỗi ngày.",
     email_label: "Email của bạn",
     email_placeholder: "ban@example.com",

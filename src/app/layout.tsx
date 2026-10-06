@@ -11,7 +11,7 @@ const beVietnam = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "Pomo",
+  title: "Pomo - Deep Work Tracker",
   description: "Theo dõi tập trung trung thực. Honest deep-work tracking.",
   manifest: "/manifest.webmanifest",
   icons: {
