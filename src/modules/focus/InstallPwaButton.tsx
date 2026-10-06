@@ -19,6 +19,7 @@ export function InstallPwaButton({ className }: { className?: string }) {
     // Kiem tra xem app dang chay o che do app/standalone hay chua
     const isStandaloneMode =
       window.matchMedia("(display-mode: standalone)").matches ||
+      window.matchMedia("(display-mode: window-controls-overlay)").matches ||
       (window.navigator as unknown as { standalone?: boolean }).standalone === true;
 
     if (isStandaloneMode) {
@@ -56,11 +57,6 @@ export function InstallPwaButton({ className }: { className?: string }) {
       if (choice.outcome === "accepted") {
         setDeferredPrompt(null);
       }
-    } else {
-      // Huong dan truc quan neu trinh duyet da xu ly san hoac can bam tren thanh dia chi
-      alert(
-        "Để cài đặt Pomo thành ứng dụng riêng:\n\n1. Nhấn vào biểu tượng Cài đặt (Install / ⊕ / 🖥️) ở góc phải thanh địa chỉ trình duyệt.\n2. Chọn 'Cài đặt' (Install).\n\nỨng dụng sẽ có logo P. riêng biệt trên Taskbar và màn hình Desktop của bạn!"
-      );
     }
   }
 
