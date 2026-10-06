@@ -4,9 +4,9 @@ from PIL import Image, ImageDraw
 
 def create_crisp_p_dot_icon(size=1024):
     """
-    Tạo biểu tượng 'P.' sắc nét, KHÔNG CÓ NỀN GIẤY / KHÔNG CÓ VIỀN TRÒN.
-    Nền trong suốt hoàn toàn (transparent), chữ P to đậm và dấu chấm cam rõ ràng,
-    căn giữa khung hình để hiển thị cực kỳ sắc nét trên Windows Taskbar dù ở 24px hay 48px.
+    Tạo biểu tượng 'P.' sắc nét, dấu chấm là hình vuông cam #C74A16.
+    Nền trong suốt hoàn toàn (transparent), chữ P to đậm và dấu vuông cam rõ ràng,
+    căn giữa khung hình để hiển thị cực kỳ sắc nét trên Windows Taskbar, PWA và Favicon.
     """
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
@@ -18,7 +18,7 @@ def create_crisp_p_dot_icon(size=1024):
     # Màu cam accent #C74A16
     orange = (199, 74, 22, 255)
 
-    # Shift nhẹ sang trái 14px để bù trừ cho dấu chấm bên phải
+    # Shift nhẹ sang trái 14px để bù trừ cho dấu chấm vuông bên phải
     dx = -14 * scale
 
     # Kích thước chữ P lớn chiếm khoảng 75% chiều cao canvas
@@ -46,7 +46,6 @@ def create_crisp_p_dot_icon(size=1024):
     draw.pieslice([bowl_cx - bowl_r, bowl_cy - bowl_r, bowl_cx + bowl_r, bowl_cy + bowl_r], start=-90, end=90, fill=ink)
 
     # Inner Hole (counter) of P (transparent cutout using RGBA 0)
-    # Masking cutout
     inner_r = int(45 * scale)
     mask = Image.new("L", (size, size), 255)
     mask_draw = ImageDraw.Draw(mask)
@@ -56,12 +55,13 @@ def create_crisp_p_dot_icon(size=1024):
     # Áp mask cắt thủng lỗ chữ P
     img.putalpha(Image.composite(img.getchannel("A"), mask, mask))
 
-    # Vẽ dấu chấm cam Pomodoro .
-    dot_cx = int(396 * scale + dx)
-    dot_cy = int(410 * scale)
-    dot_r = int(34 * scale)
+    # Vẽ dấu chấm hình vuông cam #C74A16 (size 60x60 scale, bo nhẹ góc)
+    sq_x0 = int(362 * scale + dx)
+    sq_y0 = int(380 * scale)
+    sq_size = int(60 * scale)
     draw = ImageDraw.Draw(img)
-    draw.ellipse([dot_cx - dot_r, dot_cy - dot_r, dot_cx + dot_r, dot_cy + dot_r], fill=orange)
+    # rounded rectangle with small radius
+    draw.rounded_rectangle([sq_x0, sq_y0, sq_x0 + sq_size, sq_y0 + sq_size], radius=int(4 * scale), fill=orange)
 
     return img
 
@@ -71,6 +71,11 @@ def main():
     # 1. Lưu D:/pomo/public/pomo.png
     hi_res.resize((512, 512), Image.Resampling.LANCZOS).save("D:/pomo/public/pomo.png", "PNG")
     print("Updated D:/pomo/public/pomo.png")
+
+    # Lưu thêm icon-192.png và icon-512.png cho PWA
+    hi_res.resize((192, 192), Image.Resampling.LANCZOS).save("D:/pomo/public/icon-192.png", "PNG")
+    hi_res.resize((512, 512), Image.Resampling.LANCZOS).save("D:/pomo/public/icon-512.png", "PNG")
+    print("Updated icon-192.png and icon-512.png")
 
     # 2. Lưu D:/pomo/public/pomo.ico với đầy đủ kích thước từ siêu nhỏ tới siêu nét (16, 24, 32, 48, 64, 128, 256)
     ico_sizes = [(16, 16), (20, 20), (24, 24), (32, 32), (40, 40), (48, 48), (64, 64), (128, 128), (256, 256)]

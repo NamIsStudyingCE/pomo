@@ -1,5 +1,5 @@
 // Service Worker cho Pomo PWA: Cache static assets va offline shell
-const CACHE_NAME = "pomo-cache-v1";
+const CACHE_NAME = "pomo-cache-v2";
 const OFFLINE_URLS = [
   "/today",
   "/manifest.webmanifest",

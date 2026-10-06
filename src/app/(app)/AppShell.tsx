@@ -114,9 +114,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 title="Mở rộng thanh bên (Ctrl+B)"
                 aria-label="Mở rộng thanh bên"
               >
-                {/* Trang thai binh thuong: Logo P. */}
-                <span className="absolute flex items-center justify-center text-2xl font-bold tracking-tight transition-all duration-200 ease-in-out group-hover:scale-75 group-hover:opacity-0">
-                  P<span className="text-accent-strong">.</span>
+                {/* Trang thai binh thuong: Logo P. (dau cham hinh vuong cam) */}
+                <span className="absolute flex items-baseline justify-center text-2xl font-bold tracking-tight transition-all duration-200 ease-in-out group-hover:scale-75 group-hover:opacity-0">
+                  <span>P</span>
+                  <span
+                    className="inline-block h-1.5 w-1.5 bg-accent ml-0.5 align-baseline"
+                    style={{ borderRadius: "1px" }}
+                  />
                 </span>
                 {/* Trang thai hover: Doi thanh nut mo rong SidebarSimple */}
                 <span className="absolute flex items-center justify-center text-muted transition-all duration-200 ease-in-out scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 group-hover:text-ink">
@@ -176,9 +180,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <div className="mb-6 flex items-center justify-between px-2">
               <Link
                 href="/today"
-                className="text-2xl font-bold tracking-tight text-ink hover:opacity-90 transition-opacity"
+                className="flex items-baseline text-2xl font-bold tracking-tight text-ink hover:opacity-90 transition-opacity"
               >
-                Pomo<span className="text-accent-strong">.</span>
+                <span>P</span>
+                <span
+                  className="inline-block h-1.5 w-1.5 bg-accent ml-0.5 align-baseline"
+                  style={{ borderRadius: "1px" }}
+                />
               </Link>
               <button
                 type="button"
@@ -245,8 +253,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Topbar mobile */}
         <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-line bg-paper/95 px-4 backdrop-blur md:hidden">
-          <Link href="/today" className="text-xl font-bold tracking-tight">
-            Pomo<span className="text-accent-strong">.</span>
+          <Link href="/today" className="flex items-baseline text-xl font-bold tracking-tight text-ink">
+            <span>P</span>
+            <span
+              className="inline-block h-1.5 w-1.5 bg-accent ml-0.5 align-baseline"
+              style={{ borderRadius: "1px" }}
+            />
           </Link>
           <div className="flex items-center gap-2">
             <InstallPwaButton />

@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <!-- Chữ P và dấu chấm không nền giấy, kích thước lớn sắc nét tuyệt đối căn giữa -->
+  <!-- Biểu tượng tĩnh P. sắc nét, dấu chấm là hình vuông cam #C74A16 góc bo nhẹ 2px -->
   <g transform="translate(-14, 0)">
     <!-- Chữ P nét dày đậm màu mực #23201C -->
     <path d="M128 72H296C374 72 424 118 424 192C424 266 374 312 296 312H204V440H128V72ZM204 242H286C324 242 346 221 346 192C346 163 324 142 286 142H204V242Z" fill="#23201C"/>
-    <!-- Dấu chấm accent màu cam cà chua #C74A16 -->
-    <circle cx="394" cy="414" r="34" fill="#C74A16"/>
+    <!-- Dấu chấm hình vuông cam #C74A16 đặt ngay chân chữ P -->
+    <rect x="362" y="380" width="60" height="60" rx="4" fill="#C74A16"/>
   </g>
 </svg>
