@@ -31,6 +31,9 @@ export const en: Messages = {
     check_email_body: "We sent a login link to your email. Open it to enter Pomo.",
     login_error: "Could not send the link. Check the email and try again.",
     logging_in: "Signing you in...",
+    login_as_guest: "Continue as Guest",
+    guest_hint: "Guest mode saves data locally on this device without email.",
+    or_divider: "or",
   },
   config: {
     missing_title: "Database not connected",

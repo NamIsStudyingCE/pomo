@@ -1,7 +1,21 @@
 import { requireSupabase } from "@/lib/supabase-browser";
+import {
+  isGuestMode,
+  getGuestTasks,
+  createGuestTask,
+  updateGuestTask,
+  deleteGuestTask,
+  saveGuestTasks,
+} from "@/modules/auth/guest-storage";
 import type { Priority, Task } from "./types";
 
 export async function fetchOpenTasks(): Promise<Task[]> {
+  if (isGuestMode()) {
+    const tasks = getGuestTasks();
+    return tasks
+      .filter((t) => t.completed_at === null)
+      .sort((a, b) => a.position - b.position);
+  }
   const sb = requireSupabase();
   const { data, error } = await sb
     .from("tasks")
@@ -13,6 +27,13 @@ export async function fetchOpenTasks(): Promise<Task[]> {
 }
 
 export async function fetchCompletedTasks(): Promise<Task[]> {
+  if (isGuestMode()) {
+    const tasks = getGuestTasks();
+    return tasks
+      .filter((t) => t.completed_at !== null)
+      .sort((a, b) => (new Date(b.completed_at!).getTime() - new Date(a.completed_at!).getTime()))
+      .slice(0, 50);
+  }
   const sb = requireSupabase();
   const { data, error } = await sb
     .from("tasks")
@@ -41,6 +62,9 @@ export async function createTask(
   userId: string,
   input: { title: string; priority: Priority; deadline: string | null },
 ): Promise<Task> {
+  if (isGuestMode()) {
+    return createGuestTask(input);
+  }
   const sb = requireSupabase();
   const position = (await fetchMaxPosition()) + 1000;
   const { data, error } = await sb
@@ -56,12 +80,20 @@ export async function updateTask(
   id: string,
   patch: Partial<Pick<Task, "title" | "priority" | "deadline">>,
 ): Promise<void> {
+  if (isGuestMode()) {
+    updateGuestTask(id, patch);
+    return;
+  }
   const sb = requireSupabase();
   const { error } = await sb.from("tasks").update(patch).eq("id", id);
   if (error) throw error;
 }
 
 export async function setTaskCompleted(id: string, done: boolean): Promise<void> {
+  if (isGuestMode()) {
+    updateGuestTask(id, { completed_at: done ? new Date().toISOString() : null });
+    return;
+  }
   const sb = requireSupabase();
   const { error } = await sb
     .from("tasks")
@@ -71,6 +103,10 @@ export async function setTaskCompleted(id: string, done: boolean): Promise<void>
 }
 
 export async function deleteTask(id: string): Promise<void> {
+  if (isGuestMode()) {
+    deleteGuestTask(id);
+    return;
+  }
   const sb = requireSupabase();
   const { error } = await sb.from("tasks").delete().eq("id", id);
   if (error) throw error;
@@ -85,6 +121,10 @@ export function betweenPositions(prev: number | null, next: number | null): numb
 }
 
 export async function updateTaskPosition(id: string, position: number): Promise<void> {
+  if (isGuestMode()) {
+    updateGuestTask(id, { position });
+    return;
+  }
   const sb = requireSupabase();
   const { error } = await sb.from("tasks").update({ position }).eq("id", id);
   if (error) throw error;
@@ -92,6 +132,11 @@ export async function updateTaskPosition(id: string, position: number): Promise<
 
 // Khi khoảng position quá nhỏ (giới hạn double), dàn đều lại toàn bộ
 export async function normalizePositions(tasks: Task[]): Promise<void> {
+  if (isGuestMode()) {
+    const normalized = tasks.map((t, i) => ({ ...t, position: (i + 1) * 1000 }));
+    saveGuestTasks(normalized);
+    return;
+  }
   const sb = requireSupabase();
   await Promise.all(
     tasks.map((t, i) => sb.from("tasks").update({ position: (i + 1) * 1000 }).eq("id", t.id)),

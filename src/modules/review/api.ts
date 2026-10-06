@@ -1,8 +1,12 @@
 import { requireSupabase } from "@/lib/supabase-browser";
+import { isGuestMode, getGuestSessionsSince } from "@/modules/auth/guest-storage";
 import type { FocusSession } from "@/modules/focus/types";
 
 // Lấy sessions từ một mốc về nay (phủ cả tuần đang xem + 28 ngày insight)
 export async function fetchSessionsSince(from: Date): Promise<FocusSession[]> {
+  if (isGuestMode()) {
+    return getGuestSessionsSince(from);
+  }
   const sb = requireSupabase();
   const { data, error } = await sb
     .from("focus_sessions")

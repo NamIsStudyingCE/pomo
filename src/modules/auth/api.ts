@@ -1,4 +1,5 @@
-import { requireSupabase } from "@/lib/supabase-browser";
+import { requireSupabase, getSupabase } from "@/lib/supabase-browser";
+import { isGuestMode, setGuestMode } from "./guest-storage";
 
 export async function sendMagicLink(email: string): Promise<void> {
   const sb = requireSupabase();
@@ -10,6 +11,12 @@ export async function sendMagicLink(email: string): Promise<void> {
 }
 
 export async function signOut(): Promise<void> {
-  const sb = requireSupabase();
-  await sb.auth.signOut();
+  if (isGuestMode()) {
+    setGuestMode(false);
+    return;
+  }
+  const sb = getSupabase();
+  if (sb) {
+    await sb.auth.signOut();
+  }
 }

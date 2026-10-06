@@ -29,6 +29,9 @@ export const vi = {
     check_email_body: "Mình vừa gửi một link đăng nhập tới email của bạn. Mở link đó để vào Pomo.",
     login_error: "Không gửi được link. Kiểm tra lại email rồi thử lại.",
     logging_in: "Đang đăng nhập...",
+    login_as_guest: "Tiếp tục với tư cách Khách",
+    guest_hint: "Chế độ Khách lưu dữ liệu cục bộ trên máy này mà không cần email.",
+    or_divider: "hoặc",
   },
   config: {
     missing_title: "Chưa kết nối cơ sở dữ liệu",
