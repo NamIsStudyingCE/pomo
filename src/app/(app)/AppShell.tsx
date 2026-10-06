@@ -12,6 +12,7 @@ import { SessionEngine } from "@/modules/focus/SessionEngine";
 import { AmbientAudioController } from "@/modules/focus/AmbientAudioController";
 import { useProfile } from "@/modules/settings/hooks";
 import { formatClock } from "@/lib/time";
+import { InstallPwaButton } from "@/modules/focus/InstallPwaButton";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -247,7 +248,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Link href="/today" className="text-xl font-bold tracking-tight">
             Pomo<span className="text-accent-strong">.</span>
           </Link>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
+            <InstallPwaButton />
             {pathname.startsWith("/settings") ? (
               <div className="flex items-center gap-2">
                 {sessionStatus === "running" ? (
@@ -276,7 +278,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        <main className="flex-1 px-4 py-8 md:px-6 md:py-10">
+        {/* Topbar desktop cho nut Tai ung dung (tuong tu goc tren ben phai cua Gemini) */}
+        <div className="hidden h-12 items-center justify-end px-8 pt-3 md:flex">
+          <InstallPwaButton />
+        </div>
+
+        <main className="flex-1 px-4 py-4 md:px-6 md:py-6">
           <div className="mx-auto w-full max-w-2xl">
             {children}
           </div>

@@ -16,6 +16,7 @@ export const vi = {
     loading: "Đang tải",
     error: "Có lỗi xảy ra. Thử lại nhé.",
     minutes_unit: "phút",
+    install_app: "Tải ứng dụng",
   },
   auth: {
     login_title: "Pomo",

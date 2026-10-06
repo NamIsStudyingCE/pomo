@@ -18,6 +18,7 @@ export const en: Messages = {
     loading: "Loading",
     error: "Something went wrong. Try again.",
     minutes_unit: "min",
+    install_app: "Install App",
   },
   auth: {
     login_title: "Pomo",
