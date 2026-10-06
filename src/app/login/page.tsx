@@ -44,7 +44,7 @@ export default function LoginPage() {
   if (configured && status === "ready" && session) return null;
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-sm flex-col justify-center gap-8 px-4">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-8 px-4">
       {/* Animation Logo */}
       <AnimatedLogo />
 
