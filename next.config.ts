@@ -32,6 +32,9 @@ const isDesktop = process.env.BUILD_TARGET === "desktop";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Desktop build dung thu muc rieng de khong vo .next cua ban web
+  // (hai config khac nhau: trailingSlash/output-export; dung chung se tron manifest).
+  distDir: isDesktop ? ".next-desktop" : ".next",
   // Desktop (Electron): export tinh de phuc vu qua custom protocol, khong can server.
   // headers() khong hoat dong voi output: export nen chi ap dung cho ban web.
   ...(isDesktop

@@ -30,7 +30,6 @@ export const vi = {
     login_error: "Không gửi được link. Kiểm tra lại email rồi thử lại.",
     logging_in: "Đang đăng nhập...",
     login_as_guest: "Tiếp tục với tư cách Khách",
-    guest_hint: "Chế độ Khách lưu dữ liệu cục bộ trên máy này mà không cần email.",
     or_divider: "hoặc",
   },
   config: {

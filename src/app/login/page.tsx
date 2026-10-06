@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EnvelopeSimple, User } from "@phosphor-icons/react";
+import { User } from "@phosphor-icons/react";
 import { useAuth } from "@/modules/auth/AuthProvider";
 import { sendMagicLink } from "@/modules/auth/api";
 import { useT } from "@/modules/i18n";
@@ -85,7 +85,6 @@ export default function LoginPage() {
               </div>
             ) : null}
             <Button type="submit" disabled={state === "sending"}>
-              <EnvelopeSimple size={18} />
               {state === "sending" ? t.auth.sending : t.auth.send_link}
             </Button>
           </form>
@@ -109,9 +108,6 @@ export default function LoginPage() {
               <User size={18} className="text-accent-strong" />
               <span>{t.auth.login_as_guest}</span>
             </Button>
-            <p className="text-center text-[11px] text-muted">
-              {t.auth.guest_hint}
-            </p>
           </div>
         </div>
       )}

@@ -32,7 +32,6 @@ export const en: Messages = {
     login_error: "Could not send the link. Check the email and try again.",
     logging_in: "Signing you in...",
     login_as_guest: "Continue as Guest",
-    guest_hint: "Guest mode saves data locally on this device without email.",
     or_divider: "or",
   },
   config: {
